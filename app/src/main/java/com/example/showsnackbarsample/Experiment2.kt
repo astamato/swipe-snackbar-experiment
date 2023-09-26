@@ -2,7 +2,6 @@ package com.example.showsnackbarsample
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -10,17 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.DismissValue
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Surface
-import androidx.compose.material.SwipeToDismiss
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.Button
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -35,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.example.showsnackbarsample.ui.theme.ShowSnackbarSampleTheme
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MySnackbarDemo2() {
     ShowSnackbarSampleTheme {
@@ -47,14 +46,14 @@ fun MySnackbarDemo2() {
             val snackbarHostState = remember { SnackbarHostState() }
             val scope = rememberCoroutineScope()
 
-            val dismissSnackbarState = rememberDismissState { value ->
+            val dismissSnackbarState = rememberDismissState(confirmValueChange = { value ->
                 if (value != DismissValue.Default) {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     true
                 } else {
                     false
                 }
-            }
+            })
 
             LaunchedEffect(dismissSnackbarState.currentValue) {
                 if (dismissSnackbarState.currentValue != DismissValue.Default) {

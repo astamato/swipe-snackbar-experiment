@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.showsnackbarsample.ui.theme.ShowSnackbarSampleTheme
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,18 +47,13 @@ fun MySnackbarDemo2() {
             val snackbarHostState = remember { SnackbarHostState() }
             val scope = rememberCoroutineScope()
 
-            val dismissSnackbarState = rememberDismissState(confirmValueChange = { value ->
-                if (value != DismissValue.Default) {
-                    snackbarHostState.currentSnackbarData?.dismiss()
-                    true
-                } else {
-                    false
-                }
-            })
+            val dismissSnackbarState = rememberDismissState()
 
             LaunchedEffect(dismissSnackbarState.currentValue) {
                 if (dismissSnackbarState.currentValue != DismissValue.Default) {
-                    dismissSnackbarState.reset()
+                    snackbarHostState.currentSnackbarData?.dismiss()
+                    delay(1000)
+                    dismissSnackbarState.snapTo(DismissValue.Default)
                 }
             }
 

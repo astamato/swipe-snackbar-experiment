@@ -10,16 +10,16 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.rememberSwipeToDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,8 +46,8 @@ fun MySnackbarDemo2() {
             val snackbarHostState = remember { SnackbarHostState() }
             val scope = rememberCoroutineScope()
 
-            val dismissSnackbarState = rememberDismissState(confirmValueChange = { value ->
-                if (value != DismissValue.Default) {
+            val dismissSnackbarState = rememberSwipeToDismissState(confirmValueChange = { value ->
+                if (value != SwipeToDismissValue.Settled) {
                     snackbarHostState.currentSnackbarData?.dismiss()
                     true
                 } else {
@@ -56,16 +56,16 @@ fun MySnackbarDemo2() {
             })
 
             LaunchedEffect(dismissSnackbarState.currentValue) {
-                if (dismissSnackbarState.currentValue != DismissValue.Default) {
+                if (dismissSnackbarState.currentValue != SwipeToDismissValue.Settled) {
                     dismissSnackbarState.reset()
                 }
             }
 
             Scaffold(snackbarHost = {
-                SwipeToDismiss(
+                SwipeToDismissBox(
                     state = dismissSnackbarState,
-                    background = {},
-                    dismissContent = {
+                    backgroundContent = {},
+                    content = {
                         SnackbarHost(
                             hostState = snackbarHostState, modifier = Modifier.imePadding()
                         )

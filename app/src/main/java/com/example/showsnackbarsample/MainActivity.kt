@@ -25,7 +25,8 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .padding(16.dp),
                 ) {
-                    MySnackbarDemo2()
+//                    M2Experiment2()
+                    M3Experiment2()
                 }
             }
         }
